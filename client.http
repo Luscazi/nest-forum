@@ -30,7 +30,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "title": "How do you do? [4]",
+  "title": "How do you do? [5]",
   "content": "How do you do? Lorem ipsum dolor sit amet non et al"
 }
 
