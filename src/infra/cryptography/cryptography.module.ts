@@ -13,4 +13,4 @@ import { JwtEncrypter } from './jwt-encryter'
   ],
   exports: [Encrypter, HashCompare, HashGenerator],
 })
-export class CryptografyModule {}
+export class CryptographyModule {}
