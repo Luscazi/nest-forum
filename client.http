@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "name": "Lucas Martins",
-  "email": "lucas.martins@gmail.com",
+  "email": "lucas.martins.dev.dev.lab@gmail.com",
   "password": "123456"
 }
 
@@ -18,7 +18,7 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-  "email": "lucas.martins@gmail.com",
+  "email": "lucas.martins.dev@gmail.com",
   "password": "123456"
 }
 
@@ -30,7 +30,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "title": "How do you do? [5]",
+  "title": "How do you do? [7]",
   "content": "How do you do? Lorem ipsum dolor sit amet non et al"
 }
 
