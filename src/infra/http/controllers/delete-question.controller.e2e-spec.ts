@@ -49,12 +49,12 @@ describe('Delete question (E2E)', () => {
 
     expect(response.statusCode).toBe(204)
 
-    const questionOnDatabase = await prisma.question.findUnique({
+    const answerOnDatabase = await prisma.question.findUnique({
       where: {
         id: questionId,
       },
     })
 
-    expect(questionOnDatabase).toBeNull()
+    expect(answerOnDatabase).toBeNull()
   })
 })
