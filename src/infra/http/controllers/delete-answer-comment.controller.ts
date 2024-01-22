@@ -1,7 +1,13 @@
 import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases/delete-answer-comment'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
-import { Controller, Delete, HttpCode, Param } from '@nestjs/common'
+import {
+  BadRequestException,
+  Controller,
+  Delete,
+  HttpCode,
+  Param,
+} from '@nestjs/common'
 
 @Controller('/answers/comments/:id')
 export class DeleteAnswerCommentController {
@@ -15,9 +21,13 @@ export class DeleteAnswerCommentController {
   ) {
     const authorId = user.sub
 
-    await this.deleteAnswerComment.execute({
+    const result = await this.deleteAnswerComment.execute({
       authorId,
       answerCommentId,
     })
+
+    if (result.isLeft()) {
+      throw new BadRequestException()
+    }
   }
 }
