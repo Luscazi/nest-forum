@@ -1,3 +1,8 @@
+import { AnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachments-repository'
+import { AnswerCommentRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
+import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
+import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments-repository'
+import { QuestionCommentRepository } from '@/domain/forum/application/repositories/question-comments-repository'
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { StudentsRepository } from '@/domain/forum/application/repositories/students-repository'
 import { Module } from '@nestjs/common'
@@ -21,21 +26,36 @@ import { PrismaStudentsRepository } from './prisma/repositories/prisma-students.
       provide: QuestionsRepository,
       useClass: PrismaQuestionsRepository,
     },
-    PrismaQuestionCommentRepository,
-    PrismaQuestionAttachmentsRepository,
-    PrismaAnswersRepository,
-    PrismaAnswerCommentRepository,
-    PrismaAnswerAttachmentsRepository,
+    {
+      provide: QuestionCommentRepository,
+      useClass: PrismaQuestionCommentRepository,
+    },
+    {
+      provide: QuestionAttachmentsRepository,
+      useClass: PrismaQuestionAttachmentsRepository,
+    },
+    {
+      provide: AnswersRepository,
+      useClass: PrismaAnswersRepository,
+    },
+    {
+      provide: AnswerCommentRepository,
+      useClass: PrismaAnswerCommentRepository,
+    },
+    {
+      provide: AnswerAttachmentsRepository,
+      useClass: PrismaAnswerAttachmentsRepository,
+    },
   ],
   exports: [
     PrismaService,
     StudentsRepository,
     QuestionsRepository,
-    PrismaQuestionCommentRepository,
-    PrismaQuestionAttachmentsRepository,
-    PrismaAnswersRepository,
-    PrismaAnswerCommentRepository,
-    PrismaAnswerAttachmentsRepository,
+    QuestionCommentRepository,
+    QuestionAttachmentsRepository,
+    AnswersRepository,
+    AnswerCommentRepository,
+    AnswerAttachmentsRepository,
   ],
 })
 export class DatabaseModule {}
