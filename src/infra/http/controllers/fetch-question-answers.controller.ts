@@ -2,7 +2,7 @@ import { FetchRecentAnswersUseCase } from '@/domain/forum/application/use-cases/
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { z } from 'zod'
-import { AnswerPresenter } from '../presenters/answer-presenter'
+import { AnswerWithAuthorPresenter } from '../presenters/answer-with-author-presenter'
 
 const pageQueryParamSchema = z
   .string()
@@ -36,7 +36,7 @@ export class FetchQuestionAnswersController {
     const answers = result.value.answers
 
     return {
-      answers: answers.map(AnswerPresenter.toHttp),
+      answers: answers.map(AnswerWithAuthorPresenter.toHttp),
     }
   }
 }
