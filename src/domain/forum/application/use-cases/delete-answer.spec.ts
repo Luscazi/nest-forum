@@ -5,18 +5,22 @@ import { makeAnswerAttachment } from 'test/factories/make-answer-attachment.js'
 import { makeAnswer } from 'test/factories/make-answers'
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository.js'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository.js'
 import { DeleteAnswerUseCase } from './delete-answer.ts'
 
+let inMemoryStudentsRepository: InMemoryStudentsRepository
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: DeleteAnswerUseCase
 
 describe('Delete Answer', () => {
   beforeEach(() => {
+    inMemoryStudentsRepository = new InMemoryStudentsRepository()
     inMemoryAnswerAttachmentsRepository =
       new InMemoryAnswerAttachmentsRepository()
     inMemoryAnswersRepository = new InMemoryAnswersRepository(
       inMemoryAnswerAttachmentsRepository,
+      inMemoryStudentsRepository,
     )
     sut = new DeleteAnswerUseCase(inMemoryAnswersRepository)
   })
