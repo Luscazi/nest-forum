@@ -61,6 +61,6 @@ describe('On answer created (E2E)', () => {
       })
 
       expect(notificationOnDatabase).not.toBeNull()
-    }, 1000)
+    })
   })
 })

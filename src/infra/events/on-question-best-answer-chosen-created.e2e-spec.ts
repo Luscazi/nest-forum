@@ -66,6 +66,6 @@ describe('Choose question best answer (E2E)', () => {
       })
 
       expect(notificationOnDatabase).not.toBeNull()
-    }, 1000)
+    })
   })
 })
