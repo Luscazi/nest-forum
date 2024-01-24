@@ -5,6 +5,8 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AttachmentFactory } from 'test/factories/make-attachment'
+import { QuestionAttachmentFactory } from 'test/factories/make-question-attachment'
 import { QuestionFactory } from 'test/factories/make-questions'
 import { StudentFactory } from 'test/factories/make-student'
 
@@ -12,32 +14,50 @@ describe('Fetch recent questions (E2E)', () => {
   let app: INestApplication
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
+  let attachmentFactory: AttachmentFactory
+  let questionAttachmentFactory: QuestionAttachmentFactory
   let jwt: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory, QuestionFactory],
+      providers: [
+        StudentFactory,
+        QuestionFactory,
+        AttachmentFactory,
+        QuestionAttachmentFactory,
+      ],
     }).compile()
 
     app = moduleRef.createNestApplication()
 
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
+    questionAttachmentFactory = moduleRef.get(QuestionAttachmentFactory)
     jwt = moduleRef.get(JwtService)
 
     await app.init()
   })
 
   test('[GET] /questions/:slug', async () => {
-    const user = await studentFactory.makePrismaStudent()
+    const user = await studentFactory.makePrismaStudent({ name: 'Martins' })
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
-    await questionFactory.makePrismaQuestion({
+    const question = await questionFactory.makePrismaQuestion({
       title: 'Question 01',
       slug: Slug.create('question-01'),
       authorId: user.id,
+    })
+
+    const attachment = await attachmentFactory.makePrismaAttachment({
+      title: 'Some attachment',
+    })
+
+    await questionAttachmentFactory.makePrismaQuestionAttachment({
+      attachmentId: attachment.id,
+      questionId: question.id,
     })
 
     const response = await request(app.getHttpServer())
@@ -47,7 +67,15 @@ describe('Fetch recent questions (E2E)', () => {
 
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual({
-      question: expect.objectContaining({ title: 'Question 01' }),
+      question: expect.objectContaining({
+        title: 'Question 01',
+        author: 'Martins',
+        attachments: [
+          expect.objectContaining({
+            title: 'Some attachment',
+          }),
+        ],
+      }),
     })
   })
 })
