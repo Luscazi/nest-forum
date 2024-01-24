@@ -41,7 +41,7 @@ pnpm install
 # Executar o projeto
 pnpm start:dev
 
-# O servidor inciará na porta:3000 - acesse http://localhost:3000
+# O servidor inciará na porta:3333 - acesse http://localhost:3333
 ```
 
 ## 🧪 Testes
